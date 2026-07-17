@@ -1,0 +1,23 @@
+# Lokālie rīki un redaktora dati
+.claude/
+.playwright-mcp/
+
+# Iekšējās piezīmes un plānošana
+PLAN.md
+AJNS-promts
+
+# Admin panelis — nav daļa no publiskā vizuālā prototipa
+admin.html
+js/admin.js
+
+# Atsevišķas / juridiskās lapas — nav saistītas no publiskās lapas
+intro-demo.html
+juridiskie/
+
+# Ģenerēšanas artefakti un ekrānuzņēmumi
+hero-*.jpeg
+hero-*.jpg
+*-restore.png
+
+# Admin stils (admin lapa netiek publicēta)
+css/admin.css

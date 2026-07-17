@@ -1,0 +1,129 @@
+/* ============================================================
+   Intro: uzlīme nolobās no sarkanas loksnes, nokrīt, un tad
+   loksne tiek tuvināta caur logo formas caurumu, atsedzot lapu.
+   Viss ir pašpietiekams — neko no styles.css šis fails neprasa.
+   ============================================================ */
+
+#intro{
+  --coral:#EF3A3A;           /* nolasīts tieši no logo faila */
+  --paper-back:#FFFFFF;      /* uzlīmes otrā puse */
+
+  /* Logo kastes izmērs. No šī atkarīgs viss pārējais — caurums, uzlīme,
+     tālummaiņas pakāpe. Vienīgā skrūve, ko griezt, ja gribi citu izmēru. */
+  --logoW: min(58vw, 240px);
+  --logoH: calc(var(--logoW) * 727 / 1252);
+  --wall: 9px;               /* loksnes biezums; josla gar griezumu ir puse no šī */
+
+  position:fixed;inset:0;z-index:9999;
+  /* Fons ir ŠEIT, ne tikai uz #sheet, jo #sheet uzbūvē skripts, kas palaižas
+     body beigās. Bez šī lapa paspēj uzzīmēties, un sarkanais uzkrīt virsū pēc
+     tam — tieši pretēji tam, kam intro domāts.
+     UZMANĪBU: šis fons ir domāts TIKAI līdz brīdim, kad #sheet ir uzbūvēts.
+     Tālāk skripts to noņem (sk. js/intro.js). Ja to atstātu, tas atrastos aiz
+     izgrieztā cauruma un caurums rādītu sarkanu, nevis lapu — tālummaiņa
+     beigās atsegtu tikai vienlaidu sarkanu ekrānu. */
+  background:var(--coral);
+  /* Apzināti BEZ pointer-events:none. Intro ir necaurredzams, tāpēc tam jābūt
+     necaurspiežamam arī klikšķiem: citādi klikšķis, ar ko cilvēks grib intro
+     izlaist, aiziet cauri un nospiež to, kas gadās apakšā. Praksē tā bija
+     sīkdatņu poga "Piekrītu visām", kas parādās 1200. ms un ir zem sarkanā —
+     cilvēks būtu devis piekrišanu, neredzot pat logu. Izlaišana strādā tāpat,
+     jo notikums no #intro uzpeld līdz window. */
+}
+#intro.is-done,
+html.intro-skip #intro{display:none}
+
+/* Šeit apzināti NAV `overflow:hidden` lapas bloķēšanai, lai gan intro laikā
+   ritināšana nav vajadzīga. Paslēpjot ritjoslu, izkārtojuma platums pieaug par
+   joslas platumu (1425 -> 1440), un centrētais saturs pārbīdās tieši par pusi
+   no tā — nomērīts: 7,5px. Brīdī, kad intro beidzas, visa lapa palec sāņus.
+   Ritināšanu tā vietā atļaujam un uzskatām par pazīmi, ka skatītājs grib intro
+   izlaist. (Piezīme: `vw` te nav vainīgs — tas pēc standarta ritjoslu ieskaita,
+   tāpēc nemainās. Vainīga ir centrēšana pret mainīgu platumu.)
+
+   Josla paliek savā vietā, tikai uz intro laiku to nokrāso sarkanu, lai tā
+   nespīd acīs uz vienlaidu sarkanā. Krāsa platumu nemaina, tāpēc lapa nelec.
+   Krāsa te ir ierakstīta ar roku, jo --coral dzīvo #intro iekšienē. */
+html.intro-running{scrollbar-color:#EF3A3A #EF3A3A}
+
+/* Loksne un tās griezuma mala kustas kopā, tāpēc tālummaiņu liek uz grupas.
+   Kopā tās nevar likt tāpēc, ka #sheet maska nogrieztu malu nost. */
+#sheetGroup{position:absolute;inset:0;will-change:transform}
+
+/* Loksnes biezums. Pilns siluets MĪNUS mazliet sarauts siluets = šaura josla
+   gar pašu griezumu. Tā ir tā virsma, ko redz, ieskatoties caurumā, un tieši
+   tā liek sarkanajam izskatīties pēc sienas, nevis pēc uzlīmētas papīra lapas.
+   Gaisma nāk no augšas pa kreisi, tāpēc pretējā mala ir gaiša, tuvākā — tumša. */
+#holeWall{
+  position:absolute;left:50%;top:50%;
+  width:var(--logoW);height:var(--logoH);
+  margin-left:calc(var(--logoW) / -2);
+  margin-top:calc(var(--logoH) / -2);
+  background:linear-gradient(135deg,#6E1010 0%,#B62525 30%,var(--coral) 62%,#FF9A86 100%);
+  -webkit-mask-image:url("../assets/img/logo-hole-mask.svg"), url("../assets/img/logo-hole-mask.svg");
+          mask-image:url("../assets/img/logo-hole-mask.svg"), url("../assets/img/logo-hole-mask.svg");
+  -webkit-mask-size:100% 100%, calc(100% - var(--wall)) calc(100% - var(--wall));
+          mask-size:100% 100%, calc(100% - var(--wall)) calc(100% - var(--wall));
+  -webkit-mask-position:center, center;
+          mask-position:center, center;
+  -webkit-mask-repeat:no-repeat, no-repeat;
+          mask-repeat:no-repeat, no-repeat;
+  -webkit-mask-composite:xor;
+          mask-composite:exclude;
+}
+
+/* Sarkanā loksne ar logo formas caurumu.
+   Divi maskas slāņi: pilns taisnstūris MĪNUS logo siluets. */
+#sheet{
+  position:absolute;inset:0;background:var(--coral);
+  -webkit-mask-image:linear-gradient(#000,#000), url("../assets/img/logo-hole-mask.svg");
+          mask-image:linear-gradient(#000,#000), url("../assets/img/logo-hole-mask.svg");
+  -webkit-mask-size:100% 100%, var(--logoW) var(--logoH);
+          mask-size:100% 100%, var(--logoW) var(--logoH);
+  -webkit-mask-position:center, center;
+          mask-position:center, center;
+  -webkit-mask-repeat:no-repeat, no-repeat;
+          mask-repeat:no-repeat, no-repeat;
+  -webkit-mask-composite:xor;      /* Safari / vecāks WebKit */
+          mask-composite:exclude;  /* standarts */
+  will-change:transform;
+}
+
+/* Uzlīme guļ tieši virs cauruma. */
+#stickerWrap{
+  position:absolute;left:50%;top:50%;
+  width:var(--logoW);height:var(--logoH);
+  margin-left:calc(var(--logoW) / -2);
+  margin-top:calc(var(--logoH) / -2);
+}
+/* Viss, kas lido: uzlīme un tās ēna kopā. */
+#flyer{position:absolute;inset:0;will-change:transform}
+
+/* Divas identiskas ainas — īstā uzlīme un tās ēna. Ēna ir tā pati ģeometrija,
+   tikai melna un izpludināta, tāpēc tā pati no sevis seko uzlīmes kontūrai. */
+.scene{position:absolute;inset:0;perspective:1400px}
+/* filter piespiež savu elementu plakanu, tāpēc izpludinājumam jāpaliek VIRS
+   .scene, nevis uz sloksnēm — citādi 3D vijums sabruktu. */
+#shadowLayer{position:absolute;inset:0;will-change:transform,filter}
+
+/* Sloksnu telpa: kvadrāts, kas nosedz logo jebkurā pagriezienā. */
+.peel{position:absolute;transform-style:preserve-3d}
+/* Vijuma matemātika rēķina sloksnes KREISO malu uz cilindra loka,
+   tāpēc pagrieziena centram jābūt tieši tur, nevis sloksnes vidū. */
+.strip{position:absolute;top:0;transform-style:preserve-3d;transform-origin:0 50%}
+.sf,.sb{position:absolute;inset:0;overflow:hidden;backface-visibility:hidden}
+.sb{transform:rotateY(180deg)}
+.mir{position:absolute;inset:0;transform:scaleX(-1)}
+.face{position:absolute;top:0;background-repeat:no-repeat}
+.face--front{background-image:url("../assets/img/logo-sticker.png")}
+.face--back,.face--shadow{
+  -webkit-mask-image:url("../assets/img/logo-hole-mask.svg");
+          mask-image:url("../assets/img/logo-hole-mask.svg");
+  -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
+}
+.face--back{background-color:var(--paper-back)}
+.face--shadow{background-color:#000}
+
+@media (prefers-reduced-motion:reduce){
+  #intro{display:none}
+}

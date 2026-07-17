@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="lv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>A ja nu sanāk? — kopiena, kur “ja nu” pārvēršas par “sanāks!”</title>
+  <meta name="description" content="Rīgas kopiena zinātkāriem jauniešiem un jaunajiem profesionāļiem. Bezmaksas lekcijas, iedvesmojoši viesi un tīklošanās. Piesakies nākamajam pasākumam." />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="A ja nu sanāk?" />
+  <meta property="og:description" content="Kopiena, kur “ja nu” pārvēršas par “sanāks!”. Bezmaksas pasākumi jauniešiem Rīgā." />
+  <meta property="og:image" content="assets/img/logo.png" />
+  <meta property="og:locale" content="lv_LV" />
+
+  <link rel="icon" href="assets/img/logo.png" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;1,500;1,600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/team.css" />
+  <link rel="stylesheet" href="css/intro.css" />
+
+  <!-- Izlemj par intro pirms pirmās uzzīmēšanas. Sinhroni un šeit — ar nolūku. -->
+  <script src="js/intro-gate.js"></script>
+  <!-- Bez skriptiem sarkanajai loksnei nav, kas to noņem. Tad to nerāda vispār. -->
+  <noscript><style>#intro{display:none}</style></noscript>
+</head>
+<body data-mode="info" id="top">
+
+  <!-- Sarkanā loksne, kas nolobās un atsedz lapu. Saturu tai uzbūvē js/intro.js. -->
+  <div id="intro" aria-hidden="true"></div>
+
+  <!-- 3D mikrofons: fiksēts audekls AIZ visa satura (z-index:-1). Zīmē js/mic3d.js. -->
+  <canvas class="mic3d" id="micCanvas" aria-hidden="true"></canvas>
+
+  <a class="skip-link" href="#pasakumi">Pāriet uz pasākumiem</a>
+
+  <!-- ================= HEADER ================= -->
+  <header class="site-header" id="siteHeader">
+    <div class="site-header__inner">
+      <a class="brand" href="#top" aria-label="A ja nu sanāk? sākums">
+        <img src="assets/img/logo.png" alt="A ja nu sanāk?" />
+      </a>
+
+      <!-- Signature: Info / Veikals switch -->
+      <div class="mode-toggle" role="tablist" aria-label="Pārslēgt starp informāciju un veikalu">
+        <span class="mode-toggle__thumb" aria-hidden="true"></span>
+        <button class="mode-toggle__btn is-active" role="tab" aria-selected="true" data-mode="info" id="tab-info">Info</button>
+        <button class="mode-toggle__btn" role="tab" aria-selected="false" data-mode="shop" id="tab-shop">Veikals</button>
+        <button class="mode-toggle__btn" role="tab" aria-selected="false" data-mode="about" id="tab-about">Par mums</button>
+      </div>
+
+      <div class="site-header__actions">
+        <a class="btn btn--primary header-cta header-cta--info" href="#pasakumi">Piesakies</a>
+        <button class="cart-btn header-cta--shop" id="cartOpen" aria-label="Atvērt grozu">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M7 4h-2l-1 2H2v2h1.6l2.7 9.4a2 2 0 0 0 1.9 1.4h8.9a2 2 0 0 0 1.9-1.5L22 8H6.2l-.5-2H7V4Zm2 15a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm9 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"/></svg>
+          <span class="cart-btn__count" id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+  <!-- ============================================================= -->
+  <!-- ============================ INFO ============================ -->
+  <!-- ============================================================= -->
+  <div class="world world--info" data-world="info">
+
+    <!-- ---------- HERO ---------- -->
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="hero__inner">
+        <p class="eyebrow">Kopiena jaunajiem profesionāļiem · Rīga</p>
+        <h1 class="hero__title" id="heroTitle">
+          <span class="hero__line">A&nbsp;ja&nbsp;nu</span>
+          <span class="hero__line hero__line--accent">sanāk<span class="hero__morph" aria-hidden="true"><span class="hero__q">?</span><span class="hero__x">!</span></span></span>
+        </h1>
+        <p class="hero__lead">Mēs savienojam jaunos profesionāļus ar iespējām augt, mācīties un veidot nākotni.</p>
+        <div class="hero__cta">
+          <a class="btn btn--primary btn--lg" href="#pasakumi">Apskati pasākumus</a>
+          <a class="btn btn--ghost btn--lg" href="#komuna">Kas mēs esam</a>
+        </div>
+        <ul class="hero__stats">
+          <li><strong data-count="150" data-suffix="+">0</strong><span>dalībnieku</span></li>
+          <li><strong data-count="12">0</strong><span>runātāju</span></li>
+          <li><strong>Bezmaksas</strong><span>ieeja</span></li>
+        </ul>
+      </div>
+      <div class="hero__scrollcue" aria-hidden="true"><span></span></div>
+    </section>
+
+    <!-- ---------- KINETIC MARQUEE BAND ---------- -->
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker__track" id="tickerTrack"></div>
+    </div>
+
+    <!-- ---------- MISIJA ---------- -->
+    <section class="mission section" id="misija" aria-labelledby="misijaTitle">
+      <p class="eyebrow">Mūsu misija</p>
+      <p class="mission__text" id="misijaTitle">
+        Mēs savienojam <em>zinātkāros un radošos</em> jaunos profesionāļus, sniedzot tiem iespējas mācīties,
+        veidot kontaktus un attīstīt prasmes, kas nepieciešamas veiksmīgai nākotnei uzņēmējdarbībā un profesionālajā vidē.
+      </p>
+    </section>
+
+    <!-- ---------- PASĀKUMI / KALENDĀRS ---------- -->
+    <section class="events section section--sand" id="pasakumi" aria-labelledby="eventsTitle">
+      <div class="section__head">
+        <div>
+          <p class="eyebrow">Kalendārs</p>
+          <h2 class="section__title" id="eventsTitle">Tuvākie pasākumi</h2>
+        </div>
+        <p class="section__note">Otrdienu vakaros. Vieta ir ierobežota — rezervē savu.</p>
+      </div>
+
+      <div class="months" id="months" role="tablist" aria-label="Filtrēt pēc mēneša"></div>
+
+      <div class="event-list" id="eventList"></div>
+      <p class="event-empty" id="eventEmpty" hidden>Šajā mēnesī vēl nav izziņotu pasākumu. Seko līdzi — drīz būs!</p>
+    </section>
+
+    <!-- ---------- KOMŪNA / GALERIJA ---------- -->
+    <section class="komuna section" id="komuna" aria-labelledby="komunaTitle">
+      <div class="section__head">
+        <div>
+          <p class="eyebrow">Komūna</p>
+          <h2 class="section__title" id="komunaTitle">Vieta, kur satiekas jaudīgi cilvēki</h2>
+        </div>
+        <p class="section__note">
+          Atklāj pasākumus jauniešiem Rīgā ar bezmaksas lekcijām, iedvesmojošiem viesiem un tīklošanās iespējām.
+          “A ja nu sanāk?” ir kopiena, kas palīdz augt un attīstīties.
+        </p>
+      </div>
+    </section>
+    <!-- Foto šovs: divas pretēji kustīgas rindas -->
+    <div class="photoshow" aria-label="Momentuzņēmumi no pasākumiem">
+      <div class="photoshow__row" id="showRowA"></div>
+      <div class="photoshow__row photoshow__row--rev" id="showRowB"></div>
+    </div>
+
+    <!-- ---------- VĒRTĪBAS ---------- -->
+    <section class="values section" id="vertibas" aria-labelledby="valuesTitle">
+      <div class="section__head">
+        <div>
+          <p class="eyebrow">Kompass</p>
+          <h2 class="section__title" id="valuesTitle">Piecas vērtības, kas mūs virza</h2>
+        </div>
+      </div>
+      <ol class="values__grid">
+        <li class="value"><span class="value__num">01</span><h3>Ambīcijas</h3><p>Negribam apstāties pie sasniegtā. Vienmēr meklējam nākamo soli.</p></li>
+        <li class="value"><span class="value__num">02</span><h3>Virziens</h3><p>Zinām, kurp ejam, un palīdzam citiem atrast savu ceļu.</p></li>
+        <li class="value"><span class="value__num">03</span><h3>Atbildība</h3><p>Ko sākam, to arī paveicam. Vārdi kļūst par darbiem.</p></li>
+        <li class="value"><span class="value__num">04</span><h3>Vienotība</h3><p>Augam kopā un atbalstām viens otru — arī tad, kad grūti.</p></li>
+        <li class="value"><span class="value__num">05</span><h3>Nepārtraukts piedzīvojums</h3><p>Katrs pasākums ir jauns solis un jauns stāsts.</p></li>
+        <li class="value value--cta"><span class="value__num">→</span><h3>…un tu?</h3><p>Nāc un pārliecinies, ka sanāk.</p><a class="value__link" href="#pasakumi">Uz pasākumiem</a></li>
+      </ol>
+    </section>
+
+    <!-- ---------- RUNĀTĀJI ---------- -->
+    <section class="speakers section section--sand" id="runataji" aria-labelledby="speakersTitle">
+      <div class="section__head">
+        <div>
+          <p class="eyebrow">Kas pie mums viesojies</p>
+          <h2 class="section__title" id="speakersTitle">Iedvesmojoši viesi no dažādām nozarēm</h2>
+        </div>
+      </div>
+      <ul class="speakers__list">
+        <li><strong>Kaspars Cipruss</strong><span>EuroBasket 2025 galvenais organizators, LBS ģenerālsekretārs</span></li>
+        <li><strong>Ilona Baumane-Vītoliņa</strong><span>Augstākā līmeņa vadītāju atlases konsultante</span></li>
+        <li><strong>Armands Puče</strong><span>Žurnālists, publicists, rakstnieks un uzņēmējs</span></li>
+        <li><strong>Valters Vestmanis</strong><span>“Neatkarīgais investors” partneris, podkāsta vadītājs</span></li>
+        <li><strong>Raimonds Strokšs</strong><span>WRC rallija Latvijas posma organizators</span></li>
+        <li><strong>Vilhelms Meisters</strong><span>“Wrong Digital” komandas vadītājs, uzņēmējs</span></li>
+        <li><strong>Ralfs Gaubšteins</strong><span>Cilvēcības vēstnesis</span></li>
+      </ul>
+    </section>
+
+    <!-- ---------- PIEVIENOJIES / CTA ---------- -->
+    <section class="join section section--dark" id="pievienojies" aria-labelledby="joinTitle">
+      <div class="join__inner">
+        <p class="eyebrow eyebrow--light">Pievienojies</p>
+        <h2 class="join__title" id="joinTitle">Lai “ja nu” pārvēršas par <span class="accent-serif">sanāks!</span></h2>
+        <p class="join__lead">
+          Pievienojies mūsu WhatsApp kopienai, lai augtu kopā, dalītos vērtīgā pieredzē un pirmais uzzinātu
+          par jaunām iespējām, pasākumiem un darbnīcām. Šeit tu veido ceļu uz veiksmīgu nākotni!
+        </p>
+        <div class="join__cta">
+          <a class="btn btn--primary btn--lg" href="https://chat.whatsapp.com/" target="_blank" rel="noopener">Pievienojies WhatsApp</a>
+          <a class="btn btn--light btn--lg" href="#pasakumi">Rezervē vietu pasākumā</a>
+        </div>
+
+        <form class="newsletter" id="newsletterForm" novalidate>
+          <label for="nlEmail" class="newsletter__label">Jaunumi e-pastā — bez spama, tikai svarīgākais.</label>
+          <div class="newsletter__row">
+            <input type="email" id="nlEmail" name="email" placeholder="tavs@epasts.lv" required autocomplete="email" />
+            <button type="submit" class="btn btn--primary">Pieteikties</button>
+          </div>
+          <p class="newsletter__consent">
+            <input type="checkbox" id="nlConsent" required />
+            <label for="nlConsent">Piekrītu, ka manu e-pastu izmanto jaunumu sūtīšanai saskaņā ar <a href="#" data-doc="privatums">privātuma politiku</a>.</label>
+          </p>
+          <p class="form-note form-note--ok" id="nlOk" hidden>Paldies! Drīz sazināsimies.</p>
+        </form>
+      </div>
+    </section>
+  </div><!-- /world info -->
+
+  <!-- ============================================================= -->
+  <!-- ============================ SHOP ============================ -->
+  <!-- ============================================================= -->
+  <div class="world world--shop" data-world="shop" hidden>
+    <section class="shop-hero section" aria-labelledby="shopTitle">
+      <p class="eyebrow">Veikals</p>
+      <h1 class="shop-hero__title" id="shopTitle">Valkā kustību. <span class="accent-serif">Sanāks!</span></h1>
+      <p class="shop-hero__lead">Merčs kopienai, kas tic rīcībai. Katrs pirkums atbalsta nākamos bezmaksas pasākumus.</p>
+    </section>
+
+    <section class="shop section" aria-label="Produkti">
+      <div class="shop__bar">
+        <div class="chips" id="shopChips" role="group" aria-label="Kategorijas"></div>
+        <p class="shop__count" id="shopCount"></p>
+      </div>
+      <div class="product-grid" id="productGrid"></div>
+    </section>
+
+    <section class="shop-info section section--sand" aria-label="Piegāde un atgriešana">
+      <ul class="shop-info__grid">
+        <li><h3>Piegāde</h3><p>Omniva un DPD pakomāti visā Latvijā, 2–4 darba dienās. Piegāde no €2,49.</p></li>
+        <li><h3>Atgriešana</h3><p>14 dienu atteikuma tiesības. Nevalkātu preci vari atgriezt bez iemesla.</p></li>
+        <li><h3>Droši maksājumi</h3><p>Karte, Apple&nbsp;Pay, Google&nbsp;Pay un bankas links. Maksājumus apstrādā droša sistēma.</p></li>
+      </ul>
+    </section>
+  </div><!-- /world shop -->
+
+  <!-- ============================================================= -->
+  <!-- =========================== ABOUT =========================== -->
+  <!-- ============================================================= -->
+  <div class="world world--about" data-world="about" hidden>
+    <!-- ---------- ABOUT HERO ---------- -->
+    <section class="shop-hero section" aria-labelledby="aboutTitle">
+      <p class="eyebrow">Par mums</p>
+      <h1 class="shop-hero__title" id="aboutTitle">Kopiena, kas tic <span class="accent-serif">rīcībai.</span></h1>
+      <p class="shop-hero__lead">
+        “A ja nu sanāk?” savieno zinātkārus jauniešus un jaunos profesionāļus Rīgā. Mēs ticam, ka labākais
+        veids, kā uzzināt, vai sanāks, ir vienkārši sākt — un darīt to kopā.
+      </p>
+    </section>
+
+    <!-- ---------- STĀSTS ---------- -->
+    <section class="about-story section section--sand" aria-labelledby="aboutStoryTitle">
+      <div class="section__head">
+        <div>
+          <p class="eyebrow">Mūsu stāsts</p>
+          <h2 class="section__title" id="aboutStoryTitle">No “ja nu” uz “sanāks!”</h2>
+        </div>
+        <p class="section__note">
+          Sākām ar vienkāršu domu: jauniešiem pietrūkst vietas, kur satikt cilvēkus, kuri jau ir spēruši soli
+          tālāk. Tā radās kopiena, kurā idejas pārvēršas darbos, bet iepazīšanās — ilgtermiņa kontaktos.
+        </p>
+      </div>
+    </section>
+
+    <!-- ---------- KOMANDA (ritināšanas skatuve) ---------- -->
+    <section class="team-scroll section" id="komanda" aria-labelledby="teamTitle">
+      <div class="team-scroll__sticky">
+        <div class="team-scroll__head section__head">
+          <div>
+            <p class="eyebrow">Mūsu komanda</p>
+            <h2 class="section__title" id="teamTitle">Cilvēki aiz “A ja nu sanāk?”</h2>
+          </div>
+        </div>
+        <div class="tm-stage" id="tmStage">
+          <figure class="tm-item"
+                  data-name="Kārlis Ploks" data-role="CEO"
+                  data-tag="Vada kopienu no pirmās idejas līdz pilnai zālei.">
+            <div class="tm-media">
+              <video src="assets/video/g3-scrub.mp4" poster="assets/img/g3-back.jpg"
+                     muted playsinline preload="metadata"></video>
+            </div>
+            <figcaption class="tm-cap"><strong>Kārlis Ploks</strong><span>CEO</span></figcaption>
+          </figure>
+
+          <figure class="tm-item"
+                  data-name="Eva Reinfelde" data-role="Mārketinga vadītāja"
+                  data-tag="Parūpējas, lai par mums uzzina visa Rīga.">
+            <div class="tm-media">
+              <video src="assets/video/g2-scrub.mp4" poster="assets/img/g2-back.jpg"
+                     muted playsinline preload="metadata"></video>
+            </div>
+            <figcaption class="tm-cap"><strong>Eva Reinfelde</strong><span>Mārketinga vadītāja</span></figcaption>
+          </figure>
+
+          <figure class="tm-item"
+                  data-name="Alberts Špariņš" data-role="Administratīvais vadītājs"
+                  data-tag="Tur kārtībā visu, kas notiek aizkulisēs.">
+            <div class="tm-media">
+              <video src="assets/video/event-5-scrub.mp4" poster="assets/img/event-5-back.jpg"
+                     muted playsinline preload="metadata"></video>
+            </div>
+            <figcaption class="tm-cap"><strong>Alberts Špariņš</strong><span>Administratīvais vadītājs</span></figcaption>
+          </figure>
+
+          <figure class="tm-item"
+                  data-name="Kārlis Eduards Štamers" data-role="Radošais vadītājs"
+                  data-tag="Pārvērš katru “ja nu” drosmīgā idejā.">
+            <div class="tm-media">
+              <video src="assets/video/g4-scrub.mp4" poster="assets/img/g4-back.jpg"
+                     muted playsinline preload="metadata"></video>
+            </div>
+            <figcaption class="tm-cap"><strong>Kārlis Eduards Štamers</strong><span>Radošais vadītājs</span></figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+  </div><!-- /world about -->
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="site-footer__top">
+      <div class="site-footer__brand">
+        <img src="assets/img/logo.png" alt="A ja nu sanāk?" />
+        <p>Kopiena, kur “ja nu” pārvēršas par “sanāks!”</p>
+      </div>
+      <nav class="site-footer__nav" aria-label="Kājenes navigācija">
+        <div>
+          <h4>Kopiena</h4>
+          <a href="#pasakumi">Pasākumi</a>
+          <a href="#" data-goto="about">Par mums</a>
+          <a href="#" data-goto="about">Komanda</a>
+        </div>
+        <div>
+          <h4>Veikals</h4>
+          <a href="#" data-goto="shop">Merčs</a>
+          <a href="#" data-doc="piegade">Piegāde</a>
+          <a href="#" data-doc="atteikums">Atteikuma tiesības</a>
+        </div>
+        <div>
+          <h4>Juridiski</h4>
+          <a href="#" data-doc="privatums">Privātuma politika</a>
+          <a href="#" data-doc="noteikumi">Lietošanas noteikumi</a>
+          <a href="#" data-doc="sikdatnes">Sīkdatnes</a>
+        </div>
+        <div>
+          <h4>Sazinies</h4>
+          <a href="mailto:janusanak@janusanak.lv">janusanak@janusanak.lv</a>
+          <div class="socials">
+            <a href="https://www.instagram.com/ajanusanak" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+            <a href="https://www.tiktok.com/@ajanusanak" target="_blank" rel="noopener" aria-label="TikTok">TT</a>
+            <a href="https://www.linkedin.com/company/ajanusanak" target="_blank" rel="noopener" aria-label="LinkedIn">IN</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <div class="site-footer__bottom">
+      <span>© 2026 A ja nu sanāk? · Rīga, Latvija</span>
+      <span>Reģ. nr. 00000000000 · PVN LV00000000000</span>
+    </div>
+  </footer>
+
+  <!-- ================= EVENT MODAL ================= -->
+  <div class="modal" id="eventModal" aria-hidden="true">
+    <div class="modal__overlay" data-close></div>
+    <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="emTitle">
+      <button class="modal__close" data-close aria-label="Aizvērt">&times;</button>
+      <div class="modal__body" id="eventModalBody"><!-- filled by JS --></div>
+    </div>
+  </div>
+
+  <!-- ================= CART DRAWER ================= -->
+  <div class="drawer" id="cartDrawer" aria-hidden="true">
+    <div class="drawer__overlay" data-close></div>
+    <aside class="drawer__panel" role="dialog" aria-modal="true" aria-label="Grozs">
+      <div class="drawer__head">
+        <h3>Tavs grozs</h3>
+        <button class="modal__close" data-close aria-label="Aizvērt">&times;</button>
+      </div>
+      <div class="drawer__body" id="cartBody"></div>
+      <div class="drawer__foot">
+        <div class="drawer__total"><span>Kopā</span><strong id="cartTotal">€0,00</strong></div>
+        <button class="btn btn--primary btn--block" id="checkoutBtn" disabled>Uz apmaksu</button>
+        <p class="drawer__fineprint">Maksājumus apstrādā Stripe. Piegāde tiek aprēķināta apmaksas solī.</p>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ================= DOC MODAL (legal placeholders) ================= -->
+  <div class="modal" id="docModal" aria-hidden="true">
+    <div class="modal__overlay" data-close></div>
+    <div class="modal__panel modal__panel--doc" role="dialog" aria-modal="true" aria-labelledby="docTitle">
+      <button class="modal__close" data-close aria-label="Aizvērt">&times;</button>
+      <div class="modal__body" id="docBody"></div>
+    </div>
+  </div>
+
+  <!-- ================= COOKIE BANNER ================= -->
+  <div class="cookie" id="cookieBanner" hidden>
+    <p>Izmantojam tikai nepieciešamās sīkdatnes, lai lapa darbotos. Analītikai vācam datus tikai ar tavu piekrišanu.</p>
+    <div class="cookie__actions">
+      <button class="btn btn--ghost btn--sm" id="cookieDecline">Tikai nepieciešamās</button>
+      <button class="btn btn--primary btn--sm" id="cookieAccept">Piekrītu visām</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="js/app.js"></script>
+  <script src="js/team-scroll.js"></script>
+  <script src="js/intro.js"></script>
+
+  <!-- Three.js dzīvo lokāli (js/vendor) — lapa nav atkarīga no CDN. -->
+  <script type="importmap">
+  { "imports": { "three": "./js/vendor/three.module.js", "three/addons/": "./js/vendor/" } }
+  </script>
+  <script type="module" src="js/mic3d.js"></script>
+</body>
+</html>

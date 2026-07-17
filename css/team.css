@@ -1,0 +1,155 @@
+/* ============================================================
+   KOMANDA · scrollytelling sadaļa (Par mums)
+   Noklusējums = vienkāršs režģis (mobilie, reduced-motion, bez JS).
+   .is-enhanced = lipīgā skatuve ar ritināšanas vadītu animāciju.
+   ============================================================ */
+
+/* -------------------- Kopīgais / režģa fallback -------------------- */
+.tm-stage{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:26px;
+  margin-top:36px;
+}
+.tm-item{margin:0}
+.tm-media{
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:var(--shadow);
+  background:var(--sand);
+}
+.tm-media video{width:100%;height:auto;display:block}
+.tm-cap{margin-top:12px;display:flex;flex-direction:column;gap:2px}
+.tm-cap strong{font-family:var(--display);font-weight:600;font-size:1.05rem;color:var(--ink)}
+.tm-cap span{color:var(--muted);font-size:.88rem}
+.tm-text{display:none}
+.tm-cue{display:none}
+
+/* -------------------- Lipīgā skatuve -------------------- */
+/* Chrome ritināšanas enkurošana konfliktē ar lipīgo skatuvi, kurā
+   transformācijas mainās katru kadru — lapa pati "atlec" atpakaļ. */
+html{overflow-anchor:none}
+
+.team-scroll.is-enhanced{
+  height:1150vh;
+  padding:0;
+  position:relative;
+  /* .section ierobežo platumu līdz --maxw un centrē — skatuvei
+     vajag pilnu ekrāna platumu, citādi malas apgriež saturu */
+  max-width:none;
+  margin:0;
+  width:100%;
+}
+.team-scroll.is-enhanced .team-scroll__sticky{
+  position:sticky;top:0;height:100vh;overflow:hidden;
+}
+.team-scroll.is-enhanced .team-scroll__head{
+  position:absolute;top:clamp(20px,4.5vh,52px);left:var(--gutter);z-index:6;
+}
+.team-scroll.is-enhanced .team-scroll__head .section__title{
+  font-size:clamp(1.4rem,2.4vw,2.1rem);
+}
+.team-scroll.is-enhanced .tm-stage{
+  position:absolute;inset:0;margin:0;display:block;
+}
+
+/* Video kartītes — pozicionē JS ar transform */
+.team-scroll.is-enhanced .tm-item{
+  position:absolute;left:50%;top:50%;z-index:3;
+  will-change:transform;
+  transform:translate(-50%,-50%) translate3d(0,115vh,0);
+}
+.team-scroll.is-enhanced .tm-media{
+  height:66vh;aspect-ratio:2/3;
+  border-radius:var(--radius);
+}
+.team-scroll.is-enhanced .tm-media video{
+  width:100%;height:100%;object-fit:cover;
+}
+
+/* Paraksts zem video — parādās tikai beigu rindā */
+.team-scroll.is-enhanced .tm-cap{
+  position:absolute;top:calc(100% + 16px);left:50%;
+  transform:translateX(-50%) translateY(8px);
+  width:max-content;max-width:120%;
+  text-align:center;align-items:center;
+  opacity:0;
+  transition:opacity .5s var(--ease),transform .5s var(--ease);
+}
+/* Kartīte rindā ir samazināta (~0.62) — kompensējam burtu izmēru */
+.team-scroll.is-enhanced .tm-cap strong{font-size:1.7rem}
+.team-scroll.is-enhanced .tm-cap span{font-size:1.38rem}
+.team-scroll.is-enhanced .tm-item.cap-in .tm-cap{
+  opacity:1;transform:translateX(-50%) translateY(0);
+}
+
+/* -------------------- Teksta bloki (ģenerē JS) -------------------- */
+.team-scroll.is-enhanced .tm-text{
+  display:block;
+  position:absolute;left:50%;top:50%;z-index:2;
+  width:min(34vw,560px);
+  opacity:0;visibility:hidden;
+  transition:opacity .38s ease,visibility 0s linear .38s;
+}
+.team-scroll.is-enhanced .tm-text.is-in{
+  opacity:1;visibility:visible;
+  transition:opacity .3s ease;
+}
+.team-scroll.is-enhanced .tm-text.is-in.is-out{
+  opacity:0;
+  transition:opacity .32s ease;
+}
+
+.tm-text__num{
+  font-family:var(--display);font-weight:700;
+  font-size:.95rem;letter-spacing:.16em;color:var(--coral);
+}
+.tm-text__name{
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(2.4rem,4.6vw,4.4rem);
+  line-height:1.06;color:var(--ink);
+  margin:8px 0 12px;
+}
+.tm-text__role{
+  font-family:var(--serif);font-style:italic;
+  font-size:clamp(1.15rem,1.7vw,1.5rem);
+  color:var(--coral);
+}
+.tm-text__tag{
+  margin-top:12px;color:var(--muted);
+  font-size:1.02rem;line-height:1.55;max-width:30ch;
+}
+
+/* Burti "iekrīt" — katram savs kavējums caur --d */
+.tm-char{
+  display:inline-block;
+  opacity:0;transform:translateY(-.65em);
+  transition:transform .5s var(--ease),opacity .3s ease;
+  transition-delay:var(--d,0s);
+}
+.tm-text.is-in .tm-char{opacity:1;transform:none}
+.tm-text.is-out .tm-char{transition-delay:0s}
+
+/* Loma un apakšraksts ieplūst pēc vārda burtiem */
+.tm-text__num,.tm-text__role,.tm-text__tag{
+  opacity:0;transform:translateY(14px);
+  transition:transform .5s var(--ease),opacity .4s ease;
+}
+.tm-text.is-in .tm-text__num{opacity:1;transform:none;transition-delay:.05s}
+.tm-text.is-in .tm-text__role{opacity:1;transform:none;transition-delay:.42s}
+.tm-text.is-in .tm-text__tag{opacity:1;transform:none;transition-delay:.54s}
+.tm-text.is-out .tm-text__num,
+.tm-text.is-out .tm-text__role,
+.tm-text.is-out .tm-text__tag{transition-delay:0s}
+
+/* -------------------- Ritināšanas norāde -------------------- */
+.team-scroll.is-enhanced .tm-cue{
+  display:block;
+  position:absolute;left:50%;bottom:4vh;z-index:6;
+  transform:translateX(-50%);
+  font-family:var(--display);font-size:.8rem;font-weight:600;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+  opacity:1;transition:opacity .4s ease;
+  pointer-events:none;
+}
+.team-scroll.is-enhanced .tm-cue.is-hidden{opacity:0}
