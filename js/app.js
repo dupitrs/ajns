@@ -118,7 +118,7 @@
     setTimeout(()=>{
       out.hidden = true; out.classList.remove("is-leaving");
       inn.hidden = false; inn.classList.add("is-entering");
-      window.scrollTo({top:0,behavior:"instant" in window ? "instant" : "auto"});
+      window.scrollTo({top:0,left:0,behavior:"instant"});
       requestAnimationFrame(()=>requestAnimationFrame(()=>inn.classList.remove("is-entering")));
       revealScan();
     },300);

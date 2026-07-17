@@ -9,9 +9,14 @@
 (() => {
   'use strict';
 
-  // Rādīt intro vienu reizi vienā sesijā. Kas atgriežas pārbaudīt pasākuma
-  // datumu, tam gaidīšana otrajā reizē jau kaitina.
-  const ONCE_PER_SESSION = true;
+  // Pārlādējot lapu, vienmēr sākam no augšas (nevis atjaunojam iepriekšējo
+  // ritināšanas pozīciju). Uzstādām agri, pirms pārlūks paspēj to atjaunot.
+  try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch (e) { /* vecs pārlūks */ }
+  addEventListener('load', () => window.scrollTo(0, 0));
+
+  // Rādīt intro KATRĀ lapas pārlādēšanā (pēc pieprasījuma). Ja gribi atgriezties
+  // pie "vienu reizi sesijā", uzstādi šo atpakaļ uz true.
+  const ONCE_PER_SESSION = false;
   const KEY = 'jns-intro';
 
   // Ja skripts kaut kur aizķeras, sarkanais nedrīkst palikt uz mūžiem —
